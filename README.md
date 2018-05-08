@@ -54,7 +54,12 @@ privileges.
   * Logging for Application Load Balancer shipped to a SIEM/Syslog service.
   * Logging OS level logs to a SIEM/Syslog service.   
   * Create a new Hardened AMI based off of AWS ECS Optimised AMI and use that instead.
-
+    * Remove Unrequired ports
+    * Disable ec2-user account
+    * Disable Root Logins
+    * Disable SSH Access and any other ports not required by Docker.
+  * Instead of a NAT Gateway for the instances required Access configure an HA Reverse proxy which allows access to AWS and other required resources only. 
+    
 ## Why?
 * Instead of creating a single instance with the configuration creating a repeatable pattern which can be versioned and have changes tracked.
 * I don't like treating servers as pets and prefer cattle.
