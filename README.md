@@ -12,11 +12,11 @@ more info you give, the better
 production environment.
 
 ## Answers
-1. Hosting on AWS
-2. Not Applicable with my approach
-3. Not going to provide this you can spin this up and self service and read the artifacts
-4. See below for details and insight into my motivations and thinkings
-5. This is very difficult given the fact that different "Production" levels have different requirements but I demonstrate below my thinking and design
+1. Hosting on AWS.
+2. Not Applicable with my approach.
+3. Not going to provide this you can spin this up and self service and read the artifacts.
+4. See below for details and insight into my motivations and thinkings.
+5. This is very difficult given the fact that different "Production" levels have different requirements but I demonstrate below my thinking and design. 
 
 ----
 ## Prerequisites
@@ -28,9 +28,10 @@ production environment.
 - Application Load Balancer.
   - Restricted Source via Security Group
   - HTTPS only (Using ACM Certificate)
-- ECS Cluster which can be scaled up as required.
+- ECS Cluster with hosts in private subnets
 - ECS Service
   - Wikimedia prod based docker images (https://hub.docker.com/r/wikimedia/mediawiki/).
+  - Set Scaling after doing load testing.
 - EFS volume for file uploads. 
 - Multi AZ Aurora DB for redundant DB Backend.
 
