@@ -31,7 +31,8 @@ privileges.
 * ECS Service:
   * Wikimedia prod based docker images (https://hub.docker.com/r/wikimedia/mediawiki/).
   * Set Scaling after doing load testing.
-* EFS volume for file uploads. 
+* EFS volume for file uploads.
+* All this deployed in its own disconnected VPC.
 * Multi AZ Aurora DB for redundant DB Backend.
 
 - DNS is decoupled intentionally here to allow for Blue/Green style deployments and the like.
@@ -48,8 +49,10 @@ privileges.
 * Decouple the DB component for more flexibility (Potentially Blue Green switch over for new setups etc.)
 * A private ECR or Docker Repository with a known image so I know what I am getting in terms of the Container images. Relying on public resources is not good security practice
 * This could also be fronted by CloudFront. 
-* Logging for the Containers shipped to a SIEM/Syslog Service.
-* Logging for Application Load Balancer shipped to a SIEM/Syslog service.
+* Security
+  * Logging for the Containers shipped to a SIEM/Syslog Service.
+  * Logging for Application Load Balancer shipped to a SIEM/Syslog service.
+  * Logging OS level logs to a SIEM/Syslog service.   
 
 ## Why?
 * Instead of creating a single instance with the configuration creating a repeatable pattern which can be versioned and have changes tracked.
