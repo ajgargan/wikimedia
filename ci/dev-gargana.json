@@ -1,0 +1,30 @@
+[
+    {
+        "ParameterKey": "AvailabilityZones",
+        "ParameterValue": "eu-west-1a,eu-west-1b"
+    },
+    {
+        "ParameterKey": "KeyPairName",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "RemoteAccessCIDR",
+        "ParameterValue": "0.0.0.0/0"
+    },
+    {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "garganatest"
+    },
+    {
+        "ParameterKey": "QSS3KeyPrefix",
+        "ParameterValue": "mediawiki/"
+    },
+    {
+        "ParameterKey": "MasterUserPassword",
+        "ParameterValue": "Passw0rd"
+    },
+    {
+        "ParameterKey": "MasterUsername",
+        "ParameterValue": "admini"
+    }
+]
