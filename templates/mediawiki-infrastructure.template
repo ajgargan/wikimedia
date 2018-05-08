@@ -222,7 +222,7 @@ Parameters:
   PortNumber:
     Description: The port number for the database server to listen on
     Type: Number
-    Default: '5432'
+    Default: '3306'
     MinValue: '1150'
     MaxValue: '65535'
   PostgresServerTimezone:
@@ -592,11 +592,14 @@ Resources:
       UserData: !Base64
         Fn::Sub: '#!/bin/bash
 
+          # Install Helpers
           yum install -y aws-cfn-bootstrap
 
+          # Run Config Sets
           /opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName}
           --resource ECSLaunchConfiguration
 
+          # Signal CFN on Success
           /opt/aws/bin/cfn-signal -e $? --region ${AWS::Region} --stack ${AWS::StackName}
           --resource ECSAutoScalingGroup
 
