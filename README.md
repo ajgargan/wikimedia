@@ -54,13 +54,14 @@ privileges.
 - I don't like logging into servers.
 
 ## Setting this up:
-- Configure aws cli 
-- Create S3 Bucket
-- Clone the repo
-- Copy CloudFormation templates to the appropriate location in the S3 bucket
+1. Configure aws cli 
+2. Create S3 Bucket
+3. Clone the repo
+4. Copy CloudFormation templates to the appropriate location in the S3 bucket
   - aws s3 cp templates s3://{bucketname}/mediawiki/templates/ --recursive 
-- Configure parameters in ci/dev-gargana.json
-- Configure the WikiMedia configuration file: LocalSettings.php
-- Run cmd.sh to launch the CloudFormation stack
-- The Stack Output should contain the URL of the ALB.
-- Configure the DNS to point to this endpoints DNS name as CNAME entry.
+5. Configure parameters in ci/dev-gargana.json
+6. Configure the WikiMedia configuration file: LocalSettings.php
+7. Send this to S3 Location. (Restrict Access appropriately)
+8. Run cmd.sh to launch the CloudFormation stack
+9. The Stack Output should contain the URL of the ALB.
+10. Configure the DNS to point to this endpoints DNS name as CNAME entry.
