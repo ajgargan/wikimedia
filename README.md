@@ -32,6 +32,7 @@ privileges.
   * Wikimedia prod based docker images (https://hub.docker.com/r/wikimedia/mediawiki/).
   * Set Scaling after doing load testing.
 * EFS volume for file uploads.
+* Nat instance for Outbound HTTPS 443 access required for Docker image pulls and interacting with AWS Services.
 * All this deployed in its own disconnected VPC.
 * Multi AZ Aurora DB for redundant DB Backend.
 
@@ -53,7 +54,14 @@ privileges.
   * Logging for the Containers shipped to a SIEM/Syslog Service.
   * Logging for Application Load Balancer shipped to a SIEM/Syslog service.
   * Logging OS level logs to a SIEM/Syslog service.   
-
+  * Create a new Hardened AMI based off of AWS ECS Optimised AMI and use that instead.
+    * Remove Unrequired ports
+    * Disable ec2-user account
+    * Disable Root Logins
+    * Disable SSH Access and any other ports not required by Docker.
+  * Instead of a NAT Gateway for the instances required Access configure an HA Reverse proxy which allows access to AWS and other required resources only. (https://aws.amazon.com/blogs/security/how-to-add-dns-filtering-to-your-nat-instance-with-squid/)
+  * Configure WAF Type rules on the ALB or with CloudFront.
+    
 ## Why?
 * Instead of creating a single instance with the configuration creating a repeatable pattern which can be versioned and have changes tracked.
 * I don't like treating servers as pets and prefer cattle.
