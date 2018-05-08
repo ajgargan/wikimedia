@@ -59,7 +59,7 @@ privileges.
 3. Clone the repo
 4. Copy CloudFormation templates to the appropriate location in the S3 bucket
   - aws s3 cp templates s3://{bucketname}/mediawiki/templates/ --recursive 
-5. Configure parameters in ci/dev-gargana.json
+5. Configure CloudFormation parameters in ci/dev-gargana.json
 6. Configure the WikiMedia configuration file: LocalSettings.php
 7. Send this to S3 Location. (Restrict Access appropriately)
 8. Run cmd.sh to launch the CloudFormation stack
