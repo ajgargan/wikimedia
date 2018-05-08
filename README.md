@@ -56,7 +56,9 @@ privileges.
 ## Setting this up:
 1. Configure aws cli 
 2. Create S3 Bucket
+  - aws s3api create-bucket --bucket {bucketname} --region {region}
 3. Clone the repo
+  - git clone https://github.com/ajgargan/wikimedia.git
 4. Copy CloudFormation templates to the appropriate location in the S3 bucket
   - aws s3 cp templates s3://{bucketname}/mediawiki/templates/ --recursive 
 5. Configure CloudFormation parameters in ci/dev-gargana.json
