@@ -26,7 +26,8 @@ privileges.
 * Application Load Balancer. (Public Facing):
   * Restricted IP Source via Security Group (A private VPN connection from the Corportate office would be better)
   * HTTPS only (Using ACM Certificate)
-* ECS Cluster with hosts in private subnets. (ECS Optimised AMI)
+  * Cross AZ Load Balancing is always on for this LoadBalancer. 
+* ECS Cluster with hosts in private subnets AND multiple AZ's. (ECS Optimised AMI)
 * ECS Service:
   * Wikimedia prod based docker images (https://hub.docker.com/r/wikimedia/mediawiki/).
   * Set Scaling after doing load testing.
