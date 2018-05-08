@@ -57,6 +57,7 @@ privileges.
 
 ## Setting this up:
 1. Configure aws cli 
+  - aws configure
 2. Create S3 Bucket
   - aws s3api create-bucket --bucket {bucketname} --region {region}
 3. Clone the repo
@@ -66,6 +67,8 @@ privileges.
 5. Configure CloudFormation parameters in ci/dev-gargana.json
 6. Configure the WikiMedia configuration file: LocalSettings.php
 7. Send this to S3 Location. (Restrict Access appropriately)
+  - aws s3 cp LocalSettings.php s3://{bucketname}/mediawiki/
 8. Run cmd.sh to launch the CloudFormation stack
+  - ./cmd.sh
 9. The Stack Output should contain the URL of the ALB.
-10. Configure the DNS to point to this endpoints DNS name as CNAME entry.
+10. Configure your DNS to point to this ALB URL endpoints DNS name as CNAME entry.
