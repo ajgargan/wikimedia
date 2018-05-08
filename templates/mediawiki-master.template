@@ -4,7 +4,7 @@ Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
-          default: Network Configuration
+          default: VPC Network Configuration
         Parameters:
           - AvailabilityZones
           - VPCCIDR
@@ -14,7 +14,7 @@ Metadata:
           - PrivateSubnet2CIDR
           - RemoteAccessCIDR
       - Label:
-          default: Amazon EC2 Configuration
+          default: Amazon ECS Host Configuration
         Parameters:
           - KeyPairName
       - Label:
@@ -27,10 +27,14 @@ Metadata:
           - PreferredMaintenanceWindowStartTime
           - PreferredMaintenanceWindowEndTime
       - Label:
-          default: AWS Quick Start Configuration
+          default: S3 Bucket For Subtemplates
         Parameters:
           - QSS3BucketName
           - QSS3KeyPrefix
+      - Label:
+          default: Load Balancer Configuration
+        Parameters:
+          - SSLCertificateArn 
     ParameterLabels:
       AvailabilityZones:
         default: Availability Zones
@@ -45,11 +49,11 @@ Metadata:
       PublicSubnet2CIDR:
         default: Public Subnet 2 CIDR
       QSS3BucketName:
-        default: Quick Start S3 Bucket Name
+        default: S3 Bucket Name
       QSS3KeyPrefix:
-        default: Quick Start S3 Key Prefix
+        default: S3 Key Prefix
       RemoteAccessCIDR:
-        default: Allowed Bastion External Access CIDR
+        default: Allowed External Access CIDR
       VPCCIDR:
         default: VPC CIDR
       MasterUsername:
@@ -64,6 +68,8 @@ Metadata:
         default: Maintenance period - start time
       PreferredMaintenanceWindowEndTime:
         default: Maintenance period -  end time
+      SSLCertificateArn:
+        default: ARN For ACM SSL Certificate 
 Parameters:
   AvailabilityZones:
     Description: 'List of Availability Zones to use for the subnets in the VPC. Note:
