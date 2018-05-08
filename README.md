@@ -23,11 +23,11 @@ privileges.
 - git installed.
 
 ## As is Architecture Design Overview:
-- Application Load Balancer. (Public Facing)
+- Application Load Balancer. (Public Facing):
   - Restricted IP Source via Security Group (A private VPN connection from the Corportate office would be better)
   - HTTPS only (Using ACM Certificate)
 - ECS Cluster with hosts in private subnets
-- ECS Service
+- ECS Service:
   - Wikimedia prod based docker images (https://hub.docker.com/r/wikimedia/mediawiki/).
   - Set Scaling after doing load testing.
 - EFS volume for file uploads. 
