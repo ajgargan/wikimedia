@@ -60,6 +60,7 @@ privileges.
     * Disable Root Logins
     * Disable SSH Access and any other ports not required by Docker.
   * Instead of a NAT Gateway for the instances required Access configure an HA Reverse proxy which allows access to AWS and other required resources only. (https://aws.amazon.com/blogs/security/how-to-add-dns-filtering-to-your-nat-instance-with-squid/)
+  * Configure WAF Type rules on the ALB or with CloudFront.
     
 ## Why?
 * Instead of creating a single instance with the configuration creating a repeatable pattern which can be versioned and have changes tracked.
