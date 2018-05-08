@@ -41,6 +41,9 @@ Parameters:
     Description: Arn for ALB
     Type: String
     Default: removeme
+  SSLCertificateArn:
+    Description: Arn for the provided ACM SSL Certificate
+    Type: String
   VPC:
     Description: VPCID
     Type: String
@@ -135,6 +138,8 @@ Resources:
   Listener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
+      Certificates:
+        - CertificateArn: !Ref SSLCertificateArn
       DefaultActions:
       - Type: forward
         TargetGroupArn: !Ref 'TargetGroup'

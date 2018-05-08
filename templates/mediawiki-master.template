@@ -274,6 +274,9 @@ Parameters:
     Description: Master database Username. Only applicable if DatabaseEndpoint is
       blank
     Type: String
+  SSLCertificateArn:
+    Type: String
+    Description: ARN for an SSL Certificate for the Application Load Balancers
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
@@ -316,7 +319,7 @@ Resources:
         RDSAccessCidr: !GetAtt 'VPCStack.Outputs.VPCCIDR'
         RDSSubnets: !Sub '${VPCStack.Outputs.PrivateSubnet1AID},${VPCStack.Outputs.PrivateSubnet2AID}'
         DBInstanceClass: !Ref DBInstanceClass
-  AWXStack:
+  MediaWikiStack:
     DependsOn: InfrastructureStack
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -329,6 +332,7 @@ Resources:
         MasterUsername: !Ref 'MasterUsername'
         MasterUserPassword: !Ref 'MasterUserPassword'
         ALBARN: !GetAtt 'InfrastructureStack.Outputs.ALBARN'
+        SSLCerificateArn: !Ref 'SSLCertificateArn'
         VPC: !GetAtt 'VPCStack.Outputs.VPCID'
 Outputs:
   ALBARN:
