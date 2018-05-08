@@ -32,6 +32,7 @@ privileges.
   * Wikimedia prod based docker images (https://hub.docker.com/r/wikimedia/mediawiki/).
   * Set Scaling after doing load testing.
 * EFS volume for file uploads.
+* Nat instance for Outbound HTTPS 443 access required for Docker image pulls and interacting with AWS Services.
 * All this deployed in its own disconnected VPC.
 * Multi AZ Aurora DB for redundant DB Backend.
 
