@@ -12,7 +12,7 @@ privileges.
 2. Not Applicable with my approach.
 3. Not going to provide this you can spin this up and self service and read the artifacts.
 4. See below for details and insight into my motivations and thinkings.
-5. This is very difficult given the fact that different "Production" levels have different requirements but I demonstrate below my thinking and design. 
+5. This is very difficult given the fact that different "Production" levels have different requirements but I demonstrate below my thinking and design. Performance and Capacity requirements differ from environment to environment and there is no one size fits all.
 
 ----
 ## Prerequisites
@@ -21,8 +21,8 @@ privileges.
 - An S3 Bucket where the CloudFormation Templates and Wikimedia config can be stored and accessed. 
 
 ## As is Architecture Design Overview:
-- Application Load Balancer.
-  - Restricted Source via Security Group
+- Application Load Balancer. (Public Facing)
+  - Restricted IP Source via Security Group (A private VPN connection from the Corportate office would be better)
   - HTTPS only (Using ACM Certificate)
 - ECS Cluster with hosts in private subnets
 - ECS Service
