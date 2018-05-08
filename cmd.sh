@@ -5,6 +5,6 @@ aws cloudformation create-stack \
   --template-body file://./templates/mediawiki-master.template \
   --parameters file://./ci/dev-gargana.json \
   --capabilities "CAPABILITY_IAM" \
-  --disable-rollback  
+  --disable-rollback \
   --region eu-west-1
 
