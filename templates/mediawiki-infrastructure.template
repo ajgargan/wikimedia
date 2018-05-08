@@ -225,7 +225,7 @@ Parameters:
     Default: '3306'
     MinValue: '1150'
     MaxValue: '65535'
-  PostgresServerTimezone:
+  RDSServerTimezone:
     Description: The default timezone for the database engine to use. Only applicable
       if DatabaseEndpoint is blank
     Type: String
@@ -443,6 +443,10 @@ Parameters:
       - io1
       - gp2
       - standard
+  EFSSubnetAID:
+    Type: String
+  EFSSubnetBID:
+    Type: String
 Mappings:
   AWSRegionToAMI:
     us-east-2:
@@ -739,10 +743,10 @@ Resources:
     Condition: CreateRDS
     Type: AWS::RDS::DBParameterGroup
     Properties:
-      Description: !Sub 'Application: AWX Database: ${DBName}'
+      Description: !Sub 'Application: WikiMedia Database: ${DBName}'
       Family: !FindInMap [Version2Family, !Ref 'EngineVersion', Family]
       Parameters:
-        timezone: !Ref 'PostgresServerTimezone'
+        timezone: !Ref 'RDSServerTimezone'
   DBSubnetGroup:
     Condition: CreateRDS
     Type: AWS::RDS::DBSubnetGroup
@@ -814,6 +818,36 @@ Resources:
           FromPort: '-1'
           ToPort: '-1'
           CidrIp: 0.0.0.0/0
+  EFSFileSystem:
+    Type: AWS::EFS::FileSystem
+    Properties:
+      FileSystemTags:
+      - Key: Name
+        Value: "EB-EFS-FileSystem"
+      PerformanceMode: "generalPurpose"
+      Encrypted: "false"
+  MountTargetA:
+    Type: AWS::EFS::MountTarget
+    Properties:
+      FileSystemId: !Ref EFSFileSystem
+      SecurityGroups: !Ref MountTargetSecurityGroup
+      SubnetId: !Ref EFSSubnetAID
+  MountTargetB:
+    Type: AWS::EFS::MountTarget
+    Properties:
+      FileSystemId: !Ref EFSFileSystem
+      SecurityGroups: !Ref MountTargetSecurityGroup
+      SubnetId: !Ref EFSSubnetBIA
+  MountTargetSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for mount target
+      SecurityGroupIngress:
+      - FromPort: '2049'
+        IpProtocol: tcp
+        SourceSecurityGroupId: GetAtt: [ClusterBSecurityGroup, GroupId]
+        ToPort: '2049'
+      VpcId: !Ref VPCId
 Outputs:
   Cluster:
     Description: A reference to the ECS cluster
