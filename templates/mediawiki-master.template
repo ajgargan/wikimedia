@@ -335,6 +335,6 @@ Resources:
         SSLCerificateArn: !Ref 'SSLCertificateArn'
         VPC: !GetAtt 'VPCStack.Outputs.VPCID'
 Outputs:
-  ALBARN:
-    Description: ALB ARN
-    Value: !GetAtt 'InfrastructureStack.Outputs.ALBARN'
+  ALBDNS:
+    Description: ALB DNS
+    Value: !GetAtt 'InfrastructureStack.Outputs.ALBDNS'
