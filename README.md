@@ -41,7 +41,7 @@ privileges.
 * The Instance types and infrastructure can be optimised after load testing:
   * Used this to start: https://www.mediawiki.org/wiki/Manual:Installation_requirements
   * Perform Load testing: Locust/Apache ab/Apache Jmeter.
-  * Add Scaling Triggers to scale the service based on load testing step above.
+  * Add Scaling Triggers to scale the ECS Service based on benchmarking done in the step above.
   * Memcache layer. (Adding performance if required to the DB Layer as it scales:https://www.mediawiki.org/wiki/Manual:Memcached)
   * Read Replicas for the Aurora DB.
 * Decouple the DB component for more flexibility (Potentially Blue Green switch over for new setups etc.)
