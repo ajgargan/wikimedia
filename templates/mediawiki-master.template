@@ -17,15 +17,12 @@ Metadata:
           default: Amazon ECS Host Configuration
         Parameters:
           - KeyPairName
+          - InstanceType
       - Label:
           default: Amazon RDS Database Configuration
         Parameters:
           - MasterUsername
           - MasterUserPassword
-          - PreferredBackupWindow
-          - PreferredMaintenanceWindowDay
-          - PreferredMaintenanceWindowStartTime
-          - PreferredMaintenanceWindowEndTime
       - Label:
           default: S3 Bucket For Subtemplates
         Parameters:
@@ -36,6 +33,8 @@ Metadata:
         Parameters:
           - SSLCertificateArn 
     ParameterLabels:
+      InstanceType:
+        default: ECS Instance Type
       AvailabilityZones:
         default: Availability Zones
       KeyPairName:
@@ -60,14 +59,6 @@ Metadata:
         default: Master DB Username
       MasterUserPassword:
         default: Master DB Password
-      PreferredBackupWindow:
-        default: Daily Backup Window
-      PreferredMaintenanceWindowDay:
-        default: Maintenance period - day of week
-      PreferredMaintenanceWindowStartTime:
-        default: Maintenance period - start time
-      PreferredMaintenanceWindowEndTime:
-        default: Maintenance period -  end time
       SSLCertificateArn:
         default: ARN For ACM SSL Certificate 
 Parameters:
@@ -139,20 +130,20 @@ Parameters:
     Type: String
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
-    ConstraintDescription: Quick Start bucket name can include numbers, lowercase
+    ConstraintDescription: S3 Resource name can include numbers, lowercase
       letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen
       (-).
     Default: quickstart-reference
-    Description: S3 bucket name for the Quick Start assets. Quick Start bucket name
+    Description: S3 Resource bucket name for assets. S3 bucket name
       can include numbers, lowercase letters, uppercase letters, and hyphens (-).
       It cannot start or end with a hyphen (-).
     Type: String
   QSS3KeyPrefix:
     AllowedPattern: ^[0-9a-zA-Z-/]*$
-    ConstraintDescription: Quick Start key prefix can include numbers, lowercase letters,
+    ConstraintDescription: Key prefix can include numbers, lowercase letters,
       uppercase letters, hyphens (-), and forward slash (/).
     Default: mediawiki/
-    Description: S3 key prefix for the Quick Start assets. Quick Start key prefix
+    Description: S3 Key prefix for assets. S3 Key prefix
       can include numbers, lowercase letters, uppercase letters, hyphens (-), and
       forward slash (/).
     Type: String
@@ -168,109 +159,6 @@ Parameters:
     Default: 10.0.0.0/16
     Description: CIDR block for the VPC
     Type: String
-  PreferredBackupWindow:
-    Description: The daily time range in UTC during which automated backups are created
-      (if automated backups are enabled). Cannot overlap with PreferredMaintenanceWindowTime.
-      Only applicable if DatabaseEndpoint is blank
-    Type: String
-    Default: 00:00-02:00
-    AllowedValues:
-      - 00:00-02:00
-      - 01:00-03:00
-      - 02:00-04:00
-      - 03:00-05:00
-      - 04:00-06:00
-      - 05:00-07:00
-      - 06:00-08:00
-      - 07:00-09:00
-      - 08:00-10:00
-      - 09:00-11:00
-      - 10:00-12:00
-      - 11:00-13:00
-      - 12:00-14:00
-      - 13:00-15:00
-      - 14:00-16:00
-      - 15:00-17:00
-      - 16:00-18:00
-      - 17:00-19:00
-      - 18:00-20:00
-      - 19:00-21:00
-      - 20:00-22:00
-      - 21:00-23:00
-      - 22:00-24:00
-  PreferredMaintenanceWindowDay:
-    Description: The day of the week which RDS maintenance will be performed. Only
-      applicable if DatabaseEndpoint is blank
-    Type: String
-    Default: Mon
-    AllowedValues:
-      - Mon
-      - Tue
-      - Wed
-      - Thu
-      - Fri
-      - Sat
-      - Sun
-  PreferredMaintenanceWindowEndTime:
-    Description: The weekly end time in UTC for the RDS maintenance window, must be
-      more than PreferredMaintenanceWindowEndTime and cannot overlap with PreferredBackupWindow.
-      Only applicable if DatabaseEndpoint is blank
-    Type: String
-    Default: 06:00
-    AllowedValues:
-      - 00:00
-      - 01:00
-      - 02:00
-      - 03:00
-      - 04:00
-      - 05:00
-      - 06:00
-      - 07:00
-      - 08:00
-      - 09:00
-      - '10:00'
-      - '11:00'
-      - '12:00'
-      - '13:00'
-      - '14:00'
-      - '15:00'
-      - '16:00'
-      - '17:00'
-      - '18:00'
-      - '19:00'
-      - '20:00'
-      - '21:00'
-      - '22:00'
-  PreferredMaintenanceWindowStartTime:
-    Description: The weekly start time in UTC for the RDS maintenance window, must
-      be less than PreferredMaintenanceWindowEndTime and cannot overlap with PreferredBackupWindow.
-      Only applicable if DatabaseEndpoint is blank
-    Type: String
-    Default: 04:00
-    AllowedValues:
-      - 00:00
-      - 01:00
-      - 02:00
-      - 03:00
-      - 04:00
-      - 05:00
-      - 06:00
-      - 07:00
-      - 08:00
-      - 09:00
-      - '10:00'
-      - '11:00'
-      - '12:00'
-      - '13:00'
-      - '14:00'
-      - '15:00'
-      - '16:00'
-      - '17:00'
-      - '18:00'
-      - '19:00'
-      - '20:00'
-      - '21:00'
-      - '22:00'
   MasterUserPassword:
     Description: Master user database Password. Only applicable if DatabaseEndpoint
       is blank
@@ -314,10 +202,6 @@ Resources:
         RemoteAccessCIDR: !Ref 'RemoteAccessCIDR'
         MasterUsername: !Ref 'MasterUsername'
         MasterUserPassword: !Ref 'MasterUserPassword'
-        PreferredBackupWindow: !Ref 'PreferredBackupWindow'
-        PreferredMaintenanceWindowDay: !Ref 'PreferredMaintenanceWindowDay'
-        PreferredMaintenanceWindowStartTime: !Ref 'PreferredMaintenanceWindowStartTime'
-        PreferredMaintenanceWindowEndTime: !Ref 'PreferredMaintenanceWindowEndTime'
         CidrBlocks: !Sub '${VPCStack.Outputs.PrivateSubnet1ACIDR},${VPCStack.Outputs.PrivateSubnet2ACIDR}'
         AvailabilityZones: !Join
                 - ','
