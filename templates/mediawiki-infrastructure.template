@@ -12,7 +12,7 @@ Parameters:
     Type: String
     Default: ''
   DatabaseEndpoint:
-    Description: Endpoint for postgres database, leave blank to create a new RDS database
+    Description: Endpoint for MySQL or Aurora database, leave blank to create a new RDS database
     Type: String
     Default: ''
   InstanceType:
