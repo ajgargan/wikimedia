@@ -53,6 +53,7 @@ privileges.
   * Logging for the Containers shipped to a SIEM/Syslog Service.
   * Logging for Application Load Balancer shipped to a SIEM/Syslog service.
   * Logging OS level logs to a SIEM/Syslog service.   
+  * Create a new Hardened AMI based off of AWS ECS Optimised AMI and use that instead.
 
 ## Why?
 * Instead of creating a single instance with the configuration creating a repeatable pattern which can be versioned and have changes tracked.
