@@ -1,15 +1,11 @@
 # Wikimedia on AWS
-## Requirements
-1. You can host this wherever you want. It can be in the cloud or a machine on your network or a
-VM somewhere.
+## Requirements (changed so this isn't searchable)
+1. You can host this wherever you want.
 2. You must leave your history intact
 3. You must provide us with the IP, username and SSH key so we can login as a user with sudo
 privileges.
-4. You MUST provide motivations for why you chose Linux
-distribution/applications/services/setup/architecture/basically why you did what you did. The
-more info you give, the better
-5. This setup must be production quality, ie it should be setup as if this was going to be run in a
-production environment.
+4. You must provide motivations for why you did what you did.
+5. This setup must be production quality.
 
 ## Answers
 1. Hosting on AWS.
