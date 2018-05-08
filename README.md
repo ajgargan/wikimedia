@@ -19,6 +19,8 @@ privileges.
 - A DNS Name for a domain owned which is to be used with the WIKI.
 - A AWS AMC SSL Certificate for the domain. (https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html)
 - An S3 Bucket where the CloudFormation Templates and Wikimedia config can be stored and accessed. 
+- AWS CLI installed and configured.
+- git installed.
 
 ## As is Architecture Design Overview:
 - Application Load Balancer. (Public Facing)
