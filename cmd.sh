@@ -6,4 +6,5 @@ aws cloudformation create-stack \
   --parameters file://./ci/dev-gargana.json \
   --capabilities "CAPABILITY_IAM" \
   --disable-rollback  
+  --region eu-west-1
 
