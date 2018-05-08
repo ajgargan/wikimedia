@@ -1,5 +1,5 @@
 # Wikimedia on AWS
-## Requirements (changed so this isn't searchable)
+## Requirements (**changed** so this isn't easily searchable via google)
 1. You can host this wherever you want.
 2. You must leave your history intact
 3. You must provide us with the IP, username and SSH key so we can login as a user with sudo
