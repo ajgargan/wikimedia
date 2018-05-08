@@ -34,7 +34,7 @@ Parameters:
       blank
     Type: String
   DatabaseEndpoint:
-    Description: Endpoint for postgres database
+    Description: Endpoint for MediaWiki Database
     Type: String
     Default: removeme
   ALBARN:
@@ -99,16 +99,32 @@ Resources:
           LogConfiguration:
             LogDriver: json-file
           Environment:
-            - Name: DATABASE_NAME
-              Value: "sawx"
-            - Name: DATABASE_USER
+            - Name: MYSQL_DATABASE
+              Value: "MediaWiki"
+            - Name: MYSQL_USER
               Value: !Ref MasterUsername
-            - Name: DATABASE_PASSWORD
+            - Name: MYSQL_PASSWORD
               Value: !Ref MasterUserPassword
-            - Name: DATABASE_PORT
+            - Name: MYSQL_PORT
               Value: !Ref "3306"
-            - Name: DATABASE_HOST
+            - Name: MYSQL_HOST
               Value: !Ref 'DatabaseEndpoint'
+          MountPoints: 
+            - 
+              SourceVolume: "efs-vol"
+              ContainerPath: "/var/www/html/images"
+            - 
+              SourceVolume: "mediawiki-vol"
+              ContainerPath: "/var/www/html/LocalSettings.php"
+      Volumes: 
+        - 
+          Host: 
+            SourcePath: "/mnt/efs/"
+          Name: "efs-vol"
+        - 
+          Host: 
+            SourcePath: "/root/LocalSettings.php"
+          Name: "mediawiki-vol"    
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
