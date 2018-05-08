@@ -152,10 +152,10 @@ Parameters:
     Type: String
     MinLength: '1'
     MaxLength: '63'
-    AllowedPattern: ^(?!^postgres$)[a-zA-Z_][a-zA-Z0-9_]*$
+    AllowedPattern: ^(?!^mysql$)[a-zA-Z_][a-zA-Z0-9_]*$
     ConstraintDescription: must contain from 1 to 63 alphanumeric characters, and
-      not be reserved postgres term. Only applicable if DatabaseEndpoint is blank
-    Default: awx
+      not be reserved mysql term. Only applicable if DatabaseEndpoint is blank
+    Default: MediaWiki
   EngineVersion:
     Description: The version number of the database engine to use. Only applicable
       if DatabaseEndpoint is blank
@@ -752,52 +752,6 @@ Resources:
       Subnets: !Ref 'ALBSubnets'
       SecurityGroups:
         - !Ref 'ALBSecurityGroup'
-  DBInstance:
-    Condition: CreateRDS
-    Type: AWS::RDS::DBInstance
-    DeletionPolicy: Snapshot
-    Properties:
-      AllocatedStorage: !If [100GB, '100', !If [300GB, '300', !If [600GB, '600', !If [
-              1000GB, '1000', !If [1500GB, '1500', !If [2000GB, '2000', !If [3000GB,
-                    '3000', !If [4000GB, '4000', '6000']]]]]]]]
-      AllowMajorVersionUpgrade: !Ref 'AllowMajorVersionUpgrade'
-      AutoMinorVersionUpgrade: !Ref 'AutoMinorVersionUpgrade'
-      BackupRetentionPeriod: !Ref 'BackupRetentionPeriod'
-      CopyTagsToSnapshot: !Ref 'CopyTagsToSnapshot'
-      DBInstanceClass: !Ref 'DBInstanceClass'
-      DBName: !Ref 'DBName'
-      DBParameterGroupName: !Ref 'DBParameterGroup'
-      DBSubnetGroupName: !Ref 'DBSubnetGroup'
-      Engine: postgres
-      EngineVersion: !Ref 'EngineVersion'
-      Iops: !If [100GB, '1000', !If [300GB, '3000', !If [600GB, '6000', !If [1000GB,
-              '10000', !If [1500GB, '15000', !If [2000GB, '20000', !If [3000GB, '30000',
-                    !If [4000GB, '40000', '60000']]]]]]]]
-      KmsKeyId: !GetAtt 'KMSKey.Arn'
-      LicenseModel: postgresql-license
-      MasterUsername: !Ref 'MasterUsername'
-      MasterUserPassword: !Ref 'MasterUserPassword'
-      MonitoringInterval: !Ref 'MonitoringInterval'
-      MonitoringRoleArn: !GetAtt 'MonitoringRole.Arn'
-      MultiAZ: !Ref 'MultiAZ'
-      OptionGroupName: !Ref 'DBOptionGroup'
-      Port: !Ref 'PortNumber'
-      PreferredBackupWindow: !Ref 'PreferredBackupWindow'
-      PreferredMaintenanceWindow: !Sub '${PreferredMaintenanceWindowDay}:${PreferredMaintenanceWindowStartTime}-${PreferredMaintenanceWindowDay}:${PreferredMaintenanceWindowEndTime}'
-      PubliclyAccessible: !Ref 'PubliclyAccessible'
-      StorageEncrypted: !Ref 'StorageEncrypted'
-      StorageType: !Ref 'StorageType'
-      VPCSecurityGroups:
-        - !Ref 'RDSSecurityGroup'
-  DBOptionGroup:
-    Condition: CreateRDS
-    Type: AWS::RDS::OptionGroup
-    DeletionPolicy: Retain
-    Properties:
-      EngineName: postgres
-      MajorEngineVersion: !FindInMap [Version2Family, !Ref 'EngineVersion', MajorVersion]
-      OptionGroupDescription: !Sub 'Application: AWX Database: ${DBName}'
-      OptionConfigurations: []
   DBParameterGroup:
     Condition: CreateRDS
     Type: AWS::RDS::DBParameterGroup
@@ -810,7 +764,7 @@ Resources:
     Condition: CreateRDS
     Type: AWS::RDS::DBSubnetGroup
     Properties:
-      DBSubnetGroupDescription: !Sub 'Application: AWX Database: ${DBName}'
+      DBSubnetGroupDescription: !Sub 'Application: WikiMedia Database: ${DBName}'
       SubnetIds:
         - !Select [0, !Ref 'RDSSubnets']
         - !Select [1, !Ref 'RDSSubnets']
@@ -864,7 +818,7 @@ Resources:
     Condition: CreateRDS
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: !Sub 'Allow Client connections to Application: AWX Database:
+      GroupDescription: !Sub 'Allow Client connections to Application: WikiMedia Database:
         ${DBName}'
       VpcId: !Ref 'VPC'
       SecurityGroupIngress:
@@ -906,7 +860,66 @@ Resources:
         IpProtocol: tcp
         SourceSecurityGroupId: GetAtt: [ClusterBSecurityGroup, GroupId]
         ToPort: '2049'
-      VpcId: !Ref VPCId
+      VpcId: !Ref VPC
+  RDSCluster:
+    Condition: CreateRDS
+    Type: AWS::RDS::DBCluster
+    Properties:
+      MasterUsername:
+        Ref: MasterUserName
+      MasterUserPassword:
+        Ref: MasterPassword
+      Engine: aurora
+      DBSubnetGroupName:
+        Ref: DBSubnetGroup
+      DBClusterParameterGroupName:
+        Ref: RDSDBClusterParameterGroup
+  RDSDBInstance1:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBSubnetGroupName:
+        Ref: DBSubnetGroup
+      DBParameterGroupName:
+        Ref: RDSDBParameterGroup
+      Engine: aurora
+      DBClusterIdentifier:
+        Ref: RDSCluster
+      PubliclyAccessible: 'true'
+      AvailabilityZone: 
+        Fn::Select: 
+          - 0
+          - Fn::GetAZs: ""
+      DBInstanceClass: !Ref DBInstanceClass
+  RDSDBInstance2:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBSubnetGroupName:
+        Ref: DBSubnetGroup
+      DBParameterGroupName:
+        Ref: RDSDBParameterGroup
+      Engine: aurora
+      DBClusterIdentifier:
+        Ref: RDSCluster
+      PubliclyAccessible: 'true'
+      AvailabilityZone: 
+        Fn::Select: 
+          - 1
+          - Fn::GetAZs: ""
+      DBInstanceClass: !Ref DBInstanceClass
+  RDSDBClusterParameterGroup:
+    Type: AWS::RDS::DBClusterParameterGroup
+    Properties:
+      Description: Aurora Cluster Parameter Group
+      Family: aurora5.6
+      Parameters:
+        time_zone: US/Eastern
+  RDSDBParameterGroup:
+    Type: AWS::RDS::DBParameterGroup
+    Properties:
+      Description: Aurora Parameter Group
+      Family: aurora5.6
+      Parameters:
+        sql_mode: IGNORE_SPACE
 Outputs:
   Cluster:
     Description: A reference to the ECS cluster
