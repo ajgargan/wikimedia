@@ -193,6 +193,8 @@ Resources:
     Properties:
       TemplateURL: !Sub 'https://${QSS3BucketName}.s3-${AWS::Region}.amazonaws.com/${QSS3KeyPrefix}templates/mediawiki-infrastructure.template'
       Parameters:
+        QSS3BucketName: !Ref QSS3BucketName
+        QSS3KeyPrefix: !Ref QSS3KeyPrefix
         InstanceType: !Ref 'InstanceType'
         ClusterSize: !Ref 'ClusterSize'
         VPC: !GetAtt 'VPCStack.Outputs.VPCID'
