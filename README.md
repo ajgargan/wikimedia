@@ -29,7 +29,9 @@ privileges.
   * Cross AZ Load Balancing is always on for this LoadBalancer. 
 * ECS Cluster with hosts in private subnets AND multiple AZ's. (ECS Optimised AMI)
 * ECS Service:
-  * Wikimedia prod based docker images (https://hub.docker.com/r/wikimedia/mediawiki/).
+  * Wikimedia prod based docker images (https://hub.docker.com/r/wikimedia/mediawiki/). 
+  * Env Vars for DB Details: https://hub.docker.com/r/synctree/mediawiki/
+  * Docker Entry Point Script Details: https://github.com/synctree/docker-mediawiki/blob/master/1.23/docker-entrypoint.sh
   * Set Scaling after doing load testing.
 * EFS volume for file uploads.
 * Nat instance for Outbound HTTPS 443 access required for Docker image pulls and interacting with AWS Services.
@@ -61,6 +63,7 @@ privileges.
     * Disable SSH Access and any other ports not required by Docker.
   * Instead of a NAT Gateway for the instances required Access configure an HA Reverse proxy which allows access to AWS and other required resources only. (https://aws.amazon.com/blogs/security/how-to-add-dns-filtering-to-your-nat-instance-with-squid/)
   * Configure WAF Type rules on the ALB or with CloudFront.
+  * Hardening on the MediaWiki Container with SELinux: https://www.mediawiki.org/wiki/SELinux
     
 ## Why?
 * Instead of creating a single instance with the configuration creating a repeatable pattern which can be versioned and have changes tracked.

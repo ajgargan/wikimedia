@@ -99,15 +99,15 @@ Resources:
           LogConfiguration:
             LogDriver: json-file
           Environment:
-            - Name: MYSQL_DATABASE
+            - Name: MEDIAWIKI_DB_NAME
               Value: "MediaWiki"
-            - Name: MYSQL_USER
+            - Name: MEDIAWIKI_DB_USER
               Value: !Ref MasterUsername
-            - Name: MYSQL_PASSWORD
+            - Name: MEDIAWIKI_DB_PASSWORD
               Value: !Ref MasterUserPassword
-            - Name: MYSQL_PORT
+            - Name: MYSQL_PORT_3306_TCP
               Value: !Ref "3306"
-            - Name: MYSQL_HOST
+            - Name: MEDIAWIKI_DB_HOST
               Value: !Ref 'DatabaseEndpoint'
           MountPoints: 
             - 
