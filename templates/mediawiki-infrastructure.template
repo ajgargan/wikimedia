@@ -378,9 +378,9 @@ Resources:
     Type: AWS::RDS::DBParameterGroup
     Properties:
       Description: !Sub 'Application: WikiMedia Database: ${DBName}'
-      Family: !FindInMap [Version2Family, !Ref 'EngineVersion', Family]
+      Family: "aurora5.6"
       Parameters:
-        timezone: !Ref 'RDSServerTimezone'
+        sql_mode: IGNORE_SPACE
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
@@ -431,7 +431,7 @@ Resources:
       SecurityGroupIngress:
       - FromPort: '2049'
         IpProtocol: tcp
-        SourceSecurityGroupId: GetAtt: [ClusterBSecurityGroup, GroupId]
+        SourceSecurityGroupId: !GetAtt [ ClusterBSecurityGroup, GroupId ]
         ToPort: '2049'
       VpcId: !Ref VPC
   RDSCluster:
