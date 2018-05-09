@@ -109,6 +109,10 @@ Resources:
               Value: 3306
             - Name: MEDIAWIKI_DB_HOST
               Value: !Ref 'DatabaseEndpoint'
+            - Name: MEDIAWIKI_RESTBASE_URL
+              Value: 'http://mediawiki-node-services.docker:7231/localhost/v1'
+            - Name: MEDIAWIKI_DB_TYPE
+              Value: mysql
           #MountPoints: 
           #  - 
           #    SourceVolume: "efs-vol"
