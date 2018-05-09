@@ -423,7 +423,7 @@ Resources:
     Properties:
       FileSystemId: !Ref EFSFileSystem
       SecurityGroups: !Ref MountTargetSecurityGroup
-      SubnetId: !Ref EFSSubnetBIA
+      SubnetId: !Ref EFSSubnetBID
   MountTargetSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -431,7 +431,7 @@ Resources:
       SecurityGroupIngress:
       - FromPort: '2049'
         IpProtocol: tcp
-        SourceSecurityGroupId: !GetAtt [ ClusterBSecurityGroup, GroupId ]
+        SourceSecurityGroupId: !GetAtt 'ClusterSecurityGroup.GroupId'
         ToPort: '2049'
       VpcId: !Ref VPC
   RDSCluster:
