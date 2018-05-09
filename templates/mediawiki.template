@@ -113,22 +113,22 @@ Resources:
               Value: 'http://mediawiki-node-services.docker:7231/localhost/v1'
             - Name: MEDIAWIKI_DB_TYPE
               Value: mysql
-          #MountPoints: 
+          MountPoints: 
           #  - 
           #    SourceVolume: "efs-vol"
           #    ContainerPath: "/var/www/html/images"
-          #  - 
-          #    SourceVolume: "mediawiki-vol"
-          #    ContainerPath: "/var/www/html/LocalSettings.php"
-      #Volumes: 
-      #  - 
-      #    Host: 
-      #      SourcePath: "/mnt/efs/"
-      #    Name: "efs-vol"
-        #- 
-        #  Host: 
-        #    SourcePath: "/root/LocalSettings.php"
-        #  Name: "mediawiki-vol"    
+            - 
+              SourceVolume: "mediawiki-vol"
+              ContainerPath: "/var/www/html/LocalSettings.php"
+      Volumes: 
+        - 
+          Host: 
+            SourcePath: "/mnt/efs/"
+          Name: "efs-vol"
+        - 
+          Host: 
+            SourcePath: "/root/LocalSettings.php"
+          Name: "mediawiki-vol"    
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
