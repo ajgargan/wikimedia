@@ -427,6 +427,8 @@ Resources:
         Ref: DBSubnetGroup
       DBClusterParameterGroupName:
         Ref: RDSDBClusterParameterGroup
+      VPCSecurityGroupIds:
+        - !GetAtt 'RDSSecurityGroup.GroupId'
   RDSDBInstance1:
     Type: AWS::RDS::DBInstance
     Properties:
@@ -443,8 +445,6 @@ Resources:
           - 0
           - Fn::GetAZs: ""
       DBInstanceClass: !Ref DBInstanceClass
-      VPCSecurityGroups:
-        - !Ref RDSSecurityGroup
   RDSDBInstance2:
     Type: AWS::RDS::DBInstance
     Properties:
@@ -461,8 +461,6 @@ Resources:
           - 1
           - Fn::GetAZs: ""
       DBInstanceClass: !Ref DBInstanceClass
-      VPCSecurityGroups:
-        - !Ref RDSSecurityGroup
   RDSDBClusterParameterGroup:
     Type: AWS::RDS::DBClusterParameterGroup
     Properties:
