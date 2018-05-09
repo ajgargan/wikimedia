@@ -106,7 +106,7 @@ Resources:
             - Name: MEDIAWIKI_DB_PASSWORD
               Value: !Ref MasterUserPassword
             - Name: MYSQL_PORT_3306_TCP
-              Value: !Ref "3306"
+              Value: 3306
             - Name: MEDIAWIKI_DB_HOST
               Value: !Ref 'DatabaseEndpoint'
           MountPoints: 
