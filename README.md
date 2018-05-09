@@ -23,26 +23,32 @@ privileges.
 * git installed.
 
 ## As is Architecture Design Overview:
-* Application Load Balancer. (Public Facing):
-  * Restricted IP Source via Security Group (A private VPN connection from the Corportate office would be better)
+* Application Load Balancer(ALB)
+  * Restricted IP Source via Security Group
   * HTTPS only (Using ACM Certificate)
   * Cross AZ Load Balancing is always on for this LoadBalancer. 
-* ECS Cluster with hosts in private subnets AND multiple AZ's. (ECS Optimised AMI)
+  * Multi AZ for HA
+* ECS Cluster
+  * Hosts in private Subnets
+  * In multiple AZ's for HA.
+  * AWS ECS Optimised AMI.
+  * Restricted Access from Only the ALB
 * ECS Service:
   * Wikimedia prod based docker images (https://hub.docker.com/r/wikimedia/mediawiki/). 
   * Env Vars for DB Details: https://hub.docker.com/r/synctree/mediawiki/
   * Docker Entry Point Script Details: https://github.com/synctree/docker-mediawiki/blob/master/1.23/docker-entrypoint.sh
-  * Set Scaling after doing load testing.
-* EFS volume for file uploads.
-* Nat instance for Outbound HTTPS 443 access required for Docker image pulls and interacting with AWS Services.
-* All this deployed in its own disconnected VPC.
-* Multi AZ Aurora DB for redundant DB Backend.
+  * Set Scaling for ECS Service and ECS Cluster Instances after doing load testing.
+* EFS volume for images folder and file uploads.
+* NAT Gateways for Outbound HTTPS 443 access required for Docker image pulls and interacting with AWS Services.
+* All this deployed in its own VPC.
+* Multi AZ Aurora DB for Redundant DB Backend.
 
-- DNS is decoupled intentionally here to allow for Blue/Green style deployments and the like.
+* DNS is decoupled intentionally here to allow for Blue/Green style deployments and the like.
 
 ## Further things I would like to add but don't have time for at this stage:
 * Native S3 plugin for file uploads to replace EFS. (This looks ugly: https://www.mediawiki.org/wiki/Extension:LocalS3Repo)
-* A full CI/CD pipeline for this which could be used to deliver changes to this infrastructure.
+* A full CI/CD pipeline for this which could be used to deliver changes to this 
+infrastructure.
 * The Instance types and infrastructure can be optimised after load testing:
   * Used this to start: https://www.mediawiki.org/wiki/Manual:Installation_requirements
   * Perform Load testing: Locust/Apache ab/Apache Jmeter.
@@ -53,6 +59,7 @@ privileges.
 * A private ECR or Docker Repository with a known image so I know what I am getting in terms of the Container images. Relying on public resources is not good security practice
 * This could also be fronted by CloudFront. 
 * Security
+  * Restrict Access to ALB further by using SSL VPN to connect corporate office to VPC Privately
   * Logging for the Containers shipped to a SIEM/Syslog Service.
   * Logging for Application Load Balancer shipped to a SIEM/Syslog service.
   * Logging OS level logs to a SIEM/Syslog service.   
@@ -64,7 +71,8 @@ privileges.
   * Instead of a NAT Gateway for the instances required Access configure an HA Reverse proxy which allows access to AWS and other required resources only. (https://aws.amazon.com/blogs/security/how-to-add-dns-filtering-to-your-nat-instance-with-squid/)
   * Configure WAF Type rules on the ALB or with CloudFront.
   * Hardening on the MediaWiki Container with SELinux: https://www.mediawiki.org/wiki/SELinux
-    
+* Database Scheduled SnapShots.
+
 ## Why?
 * Instead of creating a single instance with the configuration creating a repeatable pattern which can be versioned and have changes tracked.
 * I don't like treating servers as pets and prefer cattle.

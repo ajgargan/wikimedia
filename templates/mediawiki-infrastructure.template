@@ -474,7 +474,7 @@ Outputs:
     Value: !Ref ALB
   ALBDNS:
     Description: ALB ARN
-    Value: !Ref ALB
+    Value: !GetAtt 'ALB.DNSName'
   ECSInstanceRoleARN:
     Description: ECS IAM Role
     Value: !GetAtt 'ECSInstanceRole.Arn'
