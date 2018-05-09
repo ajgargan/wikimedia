@@ -355,11 +355,11 @@ Resources:
               - Effect: Allow
                 Action:
                   - s3:ListBucket
-                Resource: !Sub 'arn:aws:s3:::${QSS3Bucket}'
+                Resource: !Sub 'arn:aws:s3:::${QSS3BucketName}'
               - Effect: Allow
                 Action:
                   - s3:GetObject
-                Resource: !Sub 'arn:aws:s3:::${QSS3Bucket}/*'
+                Resource: !Sub 'arn:aws:s3:::${QSS3BucketName}/*'
   ECSInstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
