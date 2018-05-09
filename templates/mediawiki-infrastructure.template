@@ -154,10 +154,18 @@ Resources:
   ClusterSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: AWX ECS cluster hosts
+      GroupDescription: Wikimedia ECS cluster hosts
       VpcId: !Ref 'VPC'
       SecurityGroupIngress:
         - SourceSecurityGroupId: !Ref 'ALBSecurityGroup'
+          IpProtocol: '-1'
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: RDS Cluster hosts
+      VpcId: !Ref 'VPC'
+      SecurityGroupIngress:
+        - SourceSecurityGroupId: !Ref 'ClusterSecurityGroup'
           IpProtocol: '-1'
   ECSAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
@@ -435,6 +443,8 @@ Resources:
           - 0
           - Fn::GetAZs: ""
       DBInstanceClass: !Ref DBInstanceClass
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroup
   RDSDBInstance2:
     Type: AWS::RDS::DBInstance
     Properties:
@@ -451,6 +461,8 @@ Resources:
           - 1
           - Fn::GetAZs: ""
       DBInstanceClass: !Ref DBInstanceClass
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroup
   RDSDBClusterParameterGroup:
     Type: AWS::RDS::DBClusterParameterGroup
     Properties:
