@@ -97,7 +97,10 @@ infrastructure.
   aws s3 cp templates s3://{bucketname}/mediawiki/templates/ --recursive 
 ```
 5. Configure CloudFormation parameters in ci/dev-gargana.json
-6. Configure the WikiMedia configuration file: LocalSettings.php
+6. Configure the WikiMedia configuration file: LocalSettings.php 
+```
+Be sure to configure these to your DNS: https://www.mediawiki.org/wiki/Manual:$wgCanonicalServer 
+```
 7. Send this to S3 Location. (Restrict Access appropriately)
 ```
   aws s3 cp LocalSettings.php s3://{bucketname}/mediawiki/
