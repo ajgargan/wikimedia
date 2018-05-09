@@ -222,7 +222,7 @@ Resources:
         MasterUsername: !Ref 'MasterUsername'
         MasterUserPassword: !Ref 'MasterUserPassword'
         ALBARN: !GetAtt 'InfrastructureStack.Outputs.ALBARN'
-        SSLCerificateArn: !Ref 'SSLCertificateArn'
+        SSLCertificateArn: !Ref 'SSLCertificateArn'
         VPC: !GetAtt 'VPCStack.Outputs.VPCID'
 Outputs:
   ALBDNS:

@@ -118,20 +118,6 @@ Parameters:
     Description: Master database Username. Only applicable if DatabaseEndpoint is
       blank
     Type: String
-  MonitoringInterval:
-    Description: The interval, in seconds, between points when Enhanced Monitoring
-      metrics are collected for the DB instance. Only applicable if DatabaseEndpoint
-      is blank
-    Type: String
-    Default: '1'
-    AllowedValues:
-      - '0'
-      - '1'
-      - '5'
-      - '10'
-      - '15'
-      - '30'
-      - '60'
   PortNumber:
     Description: The port number for the database server to listen on
     Type: Number
@@ -209,19 +195,11 @@ Resources:
       UserData: !Base64
         Fn::Sub: '#!/bin/bash
 
-          # Install Helpers
           yum install -y aws-cfn-bootstrap nfs-utils jq
 
-          # Just say we succeeded
-          # Signal CFN on Success
-          /opt/aws/bin/cfn-signal -e 0 --region ${AWS::Region} --stack ${AWS::StackName}
-          --resource ECSAutoScalingGroup
-
-          # Run Config Sets
           /opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName}
           --resource ECSLaunchConfiguration
 
-          # Signal CFN on Success
           /opt/aws/bin/cfn-signal -e $? --region ${AWS::Region} --stack ${AWS::StackName}
           --resource ECSAutoScalingGroup
 
@@ -249,12 +227,12 @@ Resources:
             /etc/cfn/hooks.d/cfn-auto-reloader.conf:
               content: !Sub ['[cfn-auto-reloader-hook]
 
-                  triggers=post.update
+                triggers=post.update
 
-                  path=Resources.ECSLaunchConfiguration.Metadata.AWS::CloudFormation::Init
+                path=Resources.ECSLaunchConfiguration.Metadata.AWS::CloudFormation::Init
 
-                  ${Param1}', {Param1: !Sub 'action=/opt/aws/bin/cfn-init -v --region
-                    ${AWS::Region} --stack ${AWS::StackName} --resource ECSLaunchConfiguration'}]
+                ${Param1}', {Param1: !Sub 'action=/opt/aws/bin/cfn-init -v --region
+                ${AWS::Region} --stack ${AWS::StackName} --resource ECSLaunchConfiguration'}]
             /tmp/mount-efs.sh:
               mode: "000755"
               content : !Sub |
@@ -429,6 +407,8 @@ Resources:
       VpcId: !Ref VPC
   RDSCluster:
     Type: AWS::RDS::DBCluster
+    # This is just to easily tear down and not have any residual. Not for production
+    DeletionPolicy: Delete
     Properties:
       MasterUsername:
         Ref: MasterUsername
