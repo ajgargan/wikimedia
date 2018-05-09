@@ -438,9 +438,9 @@ Resources:
     Type: AWS::RDS::DBCluster
     Properties:
       MasterUsername:
-        Ref: MasterUserName
+        Ref: MasterUsername
       MasterUserPassword:
-        Ref: MasterPassword
+        Ref: MasterUserPassword
       Engine: aurora
       DBSubnetGroupName:
         Ref: DBSubnetGroup
