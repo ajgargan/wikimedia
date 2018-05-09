@@ -218,7 +218,7 @@ Resources:
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Ref QSS3KeyPrefix
         Cluster: !GetAtt 'InfrastructureStack.Outputs.Cluster'
-        DatabaseEndpoint: !GetAtt 'InfrastructureStack.Outputs.DBEndpoint'
+        DatabaseEndpoint: !GetAtt 'InfrastructureStack.Outputs.DatabaseEndpoint'
         MasterUsername: !Ref 'MasterUsername'
         MasterUserPassword: !Ref 'MasterUserPassword'
         ALBARN: !GetAtt 'InfrastructureStack.Outputs.ALBARN'
