@@ -182,21 +182,21 @@ Resources:
       MinSize: !Ref 'ClusterSize'
       MaxSize: !Ref 'ClusterSize'
       DesiredCapacity: !Ref 'ClusterSize'
-    CreationPolicy:
-      ResourceSignal:
-        Timeout: PT15M
-    UpdatePolicy:
-      AutoScalingRollingUpdate:
-        MinInstancesInService: 1
-        MaxBatchSize: 1
-        PauseTime: PT15M
-        SuspendProcesses:
-          - HealthCheck
-          - ReplaceUnhealthy
-          - AZRebalance
-          - AlarmNotification
-          - ScheduledActions
-        WaitOnResourceSignals: true
+    #CreationPolicy:
+    #  ResourceSignal:
+    #    Timeout: PT15M
+    #UpdatePolicy:
+    #  AutoScalingRollingUpdate:
+    #    MinInstancesInService: 1
+    #    MaxBatchSize: 1
+    #    PauseTime: PT15M
+    #    SuspendProcesses:
+    #      - HealthCheck
+    #      - ReplaceUnhealthy
+    #      - AZRebalance
+    #      - AlarmNotification
+    #      - ScheduledActions
+    #    WaitOnResourceSignals: true
   ECSLaunchConfiguration:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
@@ -211,7 +211,7 @@ Resources:
 
           # Install Helpers
           yum install -y aws-cfn-bootstrap nfs-utils jq
-  
+
           # Just say we succeeded
           # Signal CFN on Success
           /opt/aws/bin/cfn-signal -e 0 --region ${AWS::Region} --stack ${AWS::StackName}
