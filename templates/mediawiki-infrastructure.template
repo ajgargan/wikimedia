@@ -413,13 +413,13 @@ Resources:
     Properties:
       FileSystemId: !Ref EFSFileSystem
       SecurityGroups: !Ref MountTargetSecurityGroup
-      SubnetId: !Select [ 0 ,ECSSubnets ]
+      SubnetId: !Select [ 0 , !Ref 'ECSSubnets' ]
   MountTargetB:
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref EFSFileSystem
       SecurityGroups: !Ref MountTargetSecurityGroup
-      SubnetId: !Select [ 1 ,ECSSubnets ]
+      SubnetId: !Select [ 1 , !Ref 'ECSSubnets' ]
   MountTargetSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
