@@ -211,6 +211,11 @@ Resources:
 
           # Install Helpers
           yum install -y aws-cfn-bootstrap nfs-utils jq
+  
+          # Just say we succeeded
+          # Signal CFN on Success
+          /opt/aws/bin/cfn-signal -e 0 --region ${AWS::Region} --stack ${AWS::StackName}
+          --resource ECSAutoScalingGroup
 
           # Run Config Sets
           /opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName}
@@ -493,3 +498,6 @@ Outputs:
   ECSInstanceRoleARN:
     Description: ECS IAM Role
     Value: !GetAtt 'ECSInstanceRole.Arn'
+  DatabaseEndpoint: 
+    Description: RDS DB Endpoint
+    Value: !GetAtt 'RDSCluster.Endpoint.Address'
