@@ -203,7 +203,7 @@ Resources:
       UserData: !Base64
         Fn::Sub: '#!/bin/bash
 
-          yum install -y aws-cfn-bootstrap nfs-utils jq
+          yum install -y aws-cfn-bootstrap aws-cli nfs-utils jq
 
           /opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName}
           --resource ECSLaunchConfiguration
