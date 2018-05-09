@@ -5,7 +5,7 @@
     },
     {
         "ParameterKey": "KeyPairName",
-        "ParameterValue": ""
+        "ParameterValue": "dubiamroot"
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
@@ -25,6 +25,10 @@
     },
     {
         "ParameterKey": "MasterUsername",
-        "ParameterValue": "admini"
+        "ParameterValue": "administrator"
+    },
+    {
+        "ParameterKey": "SSLCertificateArn",
+        "ParameterValue": "arn:aws:acm:eu-west-1:XXXXYYYYXXXX:certificate/11f3664e-8ce1-4d42-bfac-0f578d32b6dc"
     }
 ]
