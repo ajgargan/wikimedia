@@ -107,7 +107,7 @@ Parameters:
       - db.t2.medium
       - db.t2.large
   KeyPairName:
-    Description: Public/private key pairs allow you to securely connect to your instance
+    Description: Public/private key pairs allow you to securely connect to your NAT instance
       after it launches
     Type: AWS::EC2::KeyPair::KeyName
   PrivateSubnet1CIDR:
@@ -175,7 +175,7 @@ Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub 'https://${QSS3BucketName}.${AWS::Region}.amazonaws.com/${QSS3KeyPrefix}templates/mediawiki-vpc.template'
+      TemplateURL: !Sub 'https://${QSS3BucketName}.s3-${AWS::Region}.amazonaws.com/${QSS3KeyPrefix}templates/mediawiki-vpc.template'
       Parameters:
         AvailabilityZones:  !Join
                 - ','
@@ -191,7 +191,7 @@ Resources:
     DependsOn: VPCStack
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub 'https://${QSS3BucketName}.${AWS::Region}.amazonaws.com/${QSS3KeyPrefix}templates/mediawiki-infrastructure.template'
+      TemplateURL: !Sub 'https://${QSS3BucketName}.s3-${AWS::Region}.amazonaws.com/${QSS3KeyPrefix}templates/mediawiki-infrastructure.template'
       Parameters:
         InstanceType: !Ref 'InstanceType'
         ClusterSize: !Ref 'ClusterSize'
@@ -213,7 +213,7 @@ Resources:
     DependsOn: InfrastructureStack
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub 'https://${QSS3BucketName}.${AWS::Region}.amazonaws.com/${QSS3KeyPrefix}templates/mediawiki.template'
+      TemplateURL: !Sub 'https://${QSS3BucketName}.s3-${AWS::Region}.amazonaws.com/${QSS3KeyPrefix}templates/mediawiki.template'
       Parameters:
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Ref QSS3KeyPrefix
