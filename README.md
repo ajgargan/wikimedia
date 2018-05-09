@@ -72,6 +72,7 @@ infrastructure.
   * Configure WAF Type rules on the ALB or with CloudFront.
   * Hardening on the MediaWiki Container with SELinux: https://www.mediawiki.org/wiki/SELinux
 * Database Scheduled SnapShots.
+* Fix the cannonical name of the Docker Container Web Server to match the SSL Domain
 
 ## Why?
 * Instead of creating a single instance with the configuration creating a repeatable pattern which can be versioned and have changes tracked.
