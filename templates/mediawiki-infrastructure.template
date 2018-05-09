@@ -1,16 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: 'This template deploys an ECS cluster to the provided VPC and subnets using an Auto Scaling Group'
 Parameters:
-  ECSClusterName:
-    Description: Name of existing ECS Cluster, leave blank to create a new cluster
-      and instances
-    Type: String
-    Default: ''
-  ALBArn:
-    Description: ARN of existing Application Load Balancer, leave blank to create
-      a new ALB
-    Type: String
-    Default: ''
   InstanceType:
     Description: Which instance type should we use to build the ECS cluster? Only
       applicable if ECSClusterName is blank
@@ -412,13 +402,15 @@ Resources:
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref EFSFileSystem
-      SecurityGroups: !Ref MountTargetSecurityGroup
+      SecurityGroups: 
+        - !Ref MountTargetSecurityGroup
       SubnetId: !Select [ 0 , !Ref 'ECSSubnets' ]
   MountTargetB:
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref EFSFileSystem
-      SecurityGroups: !Ref MountTargetSecurityGroup
+      SecurityGroups: 
+        - !Ref MountTargetSecurityGroup
       SubnetId: !Select [ 1 , !Ref 'ECSSubnets' ]
   MountTargetSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -491,7 +483,7 @@ Resources:
 Outputs:
   Cluster:
     Description: A reference to the ECS cluster
-    Value: !If [CreateECSCluster, !Ref 'ECSCluster', !Ref 'ECSClusterName']
+    Value: !Ref 'ECSCluster'
   ALBARN:
     Description: ALB ARN
     Value: !Ref ALB
