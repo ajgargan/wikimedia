@@ -148,10 +148,6 @@ Parameters:
     Default: '3306'
     MinValue: '1150'
     MaxValue: '65535'
-  EFSSubnetAID:
-    Type: String
-  EFSSubnetBID:
-    Type: String
 Mappings:
   AWSRegionToAMI:
     us-east-2:
@@ -417,13 +413,13 @@ Resources:
     Properties:
       FileSystemId: !Ref EFSFileSystem
       SecurityGroups: !Ref MountTargetSecurityGroup
-      SubnetId: !Ref EFSSubnetAID
+      SubnetId: !Select [ 0 ,ECSSubnets ]
   MountTargetB:
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref EFSFileSystem
       SecurityGroups: !Ref MountTargetSecurityGroup
-      SubnetId: !Ref EFSSubnetBID
+      SubnetId: !Select [ 1 ,ECSSubnets ]
   MountTargetSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
