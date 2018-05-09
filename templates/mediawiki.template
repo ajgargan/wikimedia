@@ -85,7 +85,7 @@ Resources:
         - ContainerName: "MediaWikiWeb"
           ContainerPort: 80
           TargetGroupArn: !Ref TargetGroup 
-  MediWikiWebTaskDefinition:
+  MediaWikiWebTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
       ContainerDefinitions:
