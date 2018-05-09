@@ -427,7 +427,7 @@ Resources:
         Ref: DBSubnetGroup
       DBClusterParameterGroupName:
         Ref: RDSDBClusterParameterGroup
-      VPCSecurityGroupIds:
+      VpcSecurityGroupIds:
         - !GetAtt 'RDSSecurityGroup.GroupId'
   RDSDBInstance1:
     Type: AWS::RDS::DBInstance
